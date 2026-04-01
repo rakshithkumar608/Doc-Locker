@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚀 Setup (Creating Frontend)
 
-## Getting Started
+- npx create-next-app@latest frontend --typescript --tailwind --eslint --app --yes
 
-First, run the development server:
+📥 Install Essential Packages
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- npm install lucide-react sonner framer-motion @tanstack/react-query
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Initialize shadcn UI:
+- npx shadcn@latest init
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🧩 Add shadcn Components
 
-## Learn More
+- npx shadcn@latest add button card dialog table badge avatar dropdown-menu separator scroll-area input label toast sheet tabs skeleton progress
 
-To learn more about Next.js, take a look at the following resources:
+📂 Project Structure (Frontend only)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+frontend/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/page.tsx
+│   │   └── lock/page.tsx
+│   ├── dashboard/
+│   │   ├── layout.tsx          ← Main protected layout with sidebar
+│   │   ├── page.tsx            ← Home/Dashboard
+│   │   ├── documents/page.tsx
+│   │   ├── cards/page.tsx
+│   │   ├── certificates/page.tsx
+│   │   └── search/page.tsx
+│   ├── globals.css
+│   └── layout.tsx
+├── components/
+│   ├── ui/                     ← shadcn components
+│   ├── layout/
+│   │   ├── Sidebar.tsx
+│   │   ├── Header.tsx
+│   │   └── ThemeProvider.tsx
+│   ├── vault/
+│   │   ├── FileCard.tsx
+│   │   ├── FileTile.tsx
+│   │   ├── SecureUpload.tsx
+│   │   ├── TagChip.tsx
+│   │   └── FileViewerModal.tsx
+│   └── common/
+├── lib/
+│   ├── encryption.ts           ← Client-side AES-GCM encryption
+│   ├── utils.ts
+│   └── api.ts                  ← API client
+├── types/
+│   └── index.ts
+├── hooks/
+│   └── useAuth.ts
+└── public/
