@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { FileCard } from '@/components/vault/FileCard';
-import { FileViwerModel } from "@/components/vault/FileViewerModel";
+import { FileViewerModal } from '@/components/vault/FileViewerModel';
 import { useVaultData, VaultFile } from '@/hooks/useVaultData';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -140,7 +140,7 @@ export default function SearchPage() {
       </div>
 
    
-      <FileViwerModel
+      <FileViewerModal
         file={selectedFile}
         isOpen={isViewerOpen}
         onClose={handleCloseViewer}

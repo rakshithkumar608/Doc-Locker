@@ -6,7 +6,7 @@ import { FileCard } from "@/components/vault/FileCard";
 import { SecureUpload } from "@/components/vault/SecureUpload";
 import { useVaultData, VaultFile } from "@/hooks/useVaultData";
 import { Award, CreditCard, FileText, HardDrive, RefreshCcw } from "lucide-react";
-import { FileViwerModel } from '@/components/vault/FileViewerModel';
+import { FileViewerModal } from '@/components/vault/FileViewerModel';
 
 export default function DashboardPage() {
   const { stats, recentFiles, loading, deleteFile } = useVaultData();
@@ -131,7 +131,7 @@ export default function DashboardPage() {
       </div>
 
       
-      <FileViwerModel 
+      <FileViewerModal 
         file={selectedFile}
         isOpen={isViewerOpen}
         onClose={handleCloseViewer}

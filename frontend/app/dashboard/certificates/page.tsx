@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FileCard } from '@/components/vault/FileCard';
 import { useVaultData, VaultFile } from '@/hooks/useVaultData';
 import { Award, RefreshCcw } from 'lucide-react';
-import { FileViwerModel } from "@/components/vault/FileViewerModel";
+import { FileViewerModal } from '@/components/vault/FileViewerModel';
 
 export default function CertificatesPage() {
   const { files, loading, deleteFile } = useVaultData();
@@ -65,7 +65,7 @@ export default function CertificatesPage() {
         </div>
       )}
 
-      <FileViwerModel
+      <FileViewerModal
         file={selectedFile}
         isOpen={isViewerOpen}
         onClose={handleCloseViewer}

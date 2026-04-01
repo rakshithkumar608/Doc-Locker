@@ -1,7 +1,7 @@
 'use client';
 
 import { FileCard } from "@/components/vault/FileCard";
-import { FileViwerModel } from "@/components/vault/FileViewerModel";
+import { FileViewerModal } from '@/components/vault/FileViewerModel';
 import { useVaultData, VaultFile } from "@/hooks/useVaultData";
 import { FileText, RefreshCcw } from "lucide-react";
 import { useState } from "react";
@@ -70,7 +70,7 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      <FileViwerModel 
+      <FileViewerModal 
       file={selectedFile}
       isOpen={isViewerOpen}
       onClose={handleCloseViewer}
