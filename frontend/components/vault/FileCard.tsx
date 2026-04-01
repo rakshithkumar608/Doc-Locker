@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 type Props = {
   file: VaultFile;
   onDelete: (id: string) => void;
+  onView: (file: VaultFile) => void;
 }
 
 export function FileCard({ file, onDelete }: Props) {
@@ -14,9 +15,15 @@ export function FileCard({ file, onDelete }: Props) {
   file.type === 'card' ? ImageIcon : 
   file.type === 'certificate' ? Award : FileText;
 
+  function onView(file: VaultFile): void {
+    throw new Error("Function not implemented.");
+  }
+
   return(
-    <Card className="glass border-zinc-800 hover:border-indigo-500/70 transition-all group">
-      <CardContent className="p-5">
+    <Card 
+    onClick={() => onView(file)}
+    className="glass border-zinc-800 hover:border-indigo-500/70 transition-all group">
+      <CardContent className="p-5 relative">
         <div className="flex gap-4">
           <div className="w-14 h-14 bg-zinc-800 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition">
             <Icon className="w-7 h-7 text-indigo-400"/>
@@ -49,7 +56,10 @@ export function FileCard({ file, onDelete }: Props) {
         variant="ghost"
         size="icon"
         className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-500"
-        onClick={() => onDelete(file.id)}
+        onClick={(e) =>{
+          e.stopPropagation();
+          onDelete(file.id)}
+        } 
         >
           <Trash2 className="w-4 h-4"/>
         </Button>

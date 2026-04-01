@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
-import { ThemeProvider } from '@/components/layouts/ThemeProvider';
+import { ThemeProvider } from 'next-themes';
 
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-inter" });
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning className="dark">
       <body className={`${inter.className} bg-zinc-950 text-zinc-200`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}

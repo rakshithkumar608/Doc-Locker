@@ -2,10 +2,18 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemeProvider } from "next-themes";
-import { type ThemeProviderProps } from "next-themes";
 
 
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-    return <NextThemeProvider {...props}> {children} </NextThemeProvider>
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <NextThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+       suppressHydrationWarning
+    >
+      {children}
+    </NextThemeProvider>
+  )
 }

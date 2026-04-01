@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-
-
 export type VaultFile = {
     id: string;
     name: string;
@@ -22,56 +20,89 @@ export function useVaultData() {
 
     useEffect(() => {
         const savedFiles = localStorage.getItem('docvault_files');
+
         if (savedFiles) {
-            setFiles(JSON.parse(savedFiles));
+            try {
+                const parsed = JSON.parse(savedFiles);
+
+
+                const cleanFiles: VaultFile[] = parsed.filter(
+                    (f: any) =>
+                        f &&
+                        typeof f === 'object' &&
+                        f.type &&
+                        f.size !== undefined
+                );
+
+                setFiles(cleanFiles);
+            } catch (err) {
+                console.error("Error parsing localStorage:", err);
+                setFiles([]);
+            }
         }
-        setLoading(false)
+
+        setLoading(false);
     }, []);
 
+   
     const saveFiles = (updatedFiles: VaultFile[]) => {
         setFiles(updatedFiles);
-        localStorage.setItem('docvault_files', JSON.stringify(updatedFiles))
+        localStorage.setItem('docvault_files', JSON.stringify(updatedFiles));
     };
 
+    
     const addFile = (newFile: Omit<VaultFile, 'id' | 'date'>) => {
         const file: VaultFile = {
             ...newFile,
-            id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+            id:
+                Date.now().toString(36) +
+                Math.random().toString(36).substr(2),
             date: new Date().toLocaleDateString('en-IN', {
                 day: 'numeric',
-                month: 'short', 
+                month: 'short',
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             }),
         };
 
-        const updated = [File, ...files];
+       
+        const updated = [file, ...files];
+
         saveFiles(updated);
         return file;
     };
 
+    
     const deleteFile = (id: string) => {
-        const updated = files.filter(f => f.id !== id);
+        const updated = files.filter(f => f && f.id !== id);
         saveFiles(updated);
     };
 
+  
+    const validFiles = files.filter(f => f);
+
     const stats = {
-        totalFiles: files.length,
-        documents: files.filter(f => f.type === 'document').length,
-        cards: files.filter(f => f.type === 'card').length,
-        certificates: files.filter(f => f.type === 'certificate').length,
-        storageUsed: (files.reduce((sum, f) => sum + f.size, 0) / (1024 * 1024)).toFixed(1) + ' MB',
+        totalFiles: validFiles.length,
+        documents: validFiles.filter(f => f.type === 'document').length,
+        cards: validFiles.filter(f => f.type === 'card').length,
+        certificates: validFiles.filter(f => f.type === 'certificate').length,
+        storageUsed:
+            (
+                validFiles.reduce((sum, f) => sum + (f.size || 0), 0) /
+                (1024 * 1024)
+            ).toFixed(1) + ' MB',
     };
 
-    const recentFiles = [...files].slice(0, 6);
+
+    const recentFiles = [...validFiles].slice(0, 6);
 
     return {
-        files,
+        files: validFiles,
         recentFiles,
         stats,
         loading,
         addFile,
         deleteFile,
-    }
+    };
 }
