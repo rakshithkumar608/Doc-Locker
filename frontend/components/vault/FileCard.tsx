@@ -15,9 +15,7 @@ export function FileCard({ file, onDelete }: Props) {
   file.type === 'card' ? ImageIcon : 
   file.type === 'certificate' ? Award : FileText;
 
-  function onView(file: VaultFile): void {
-    throw new Error("Function not implemented.");
-  }
+
 
   return(
     <Card 

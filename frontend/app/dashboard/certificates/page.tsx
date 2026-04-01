@@ -1,7 +1,75 @@
-import React from 'react'
+'use client';
 
-export const page = () => {
+import { useState } from 'react';
+import { FileCard } from '@/components/vault/FileCard';
+import { useVaultData, VaultFile } from '@/hooks/useVaultData';
+import { Award, RefreshCcw } from 'lucide-react';
+import { FileViwerModel } from "@/components/vault/FileViewerModel";
+
+export default function CertificatesPage() {
+  const { files, loading, deleteFile } = useVaultData();
+  const [selectedFile, setSelectedFile] = useState<VaultFile | null>(null);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+  const certificates = files.filter(file => file.type === 'certificate');
+
+  const handleViewFile = (file: VaultFile) => {
+    setSelectedFile(file);
+    setIsViewerOpen(true);
+  };
+
+  const handleCloseViewer = () => {
+    setIsViewerOpen(false);
+    setTimeout(() => setSelectedFile(null), 300);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <RefreshCcw className="w-8 h-8 animate-spin text-indigo-500" />
+      </div>
+    );
+  }
+
   return (
-    <div>page</div>
-  )
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-bold text-white tracking-tight flex items-center gap-3">
+            <Award className="w-9 h-9 text-amber-400" />
+            Certificates
+          </h1>
+          <p className="text-zinc-400 mt-2">Degrees, Birth Certificates, Marksheets & more</p>
+        </div>
+        <div className="text-sm text-zinc-400">
+          {certificates.length} certificates
+        </div>
+      </div>
+
+      {certificates.length === 0 ? (
+        <div className="glass border border-dashed border-zinc-700 rounded-3xl p-20 text-center">
+          <Award className="w-16 h-16 mx-auto text-zinc-600 mb-4" />
+          <p className="text-xl text-zinc-400">No certificates yet</p>
+          <p className="text-zinc-500 mt-2">Upload your important certificates</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certificates.map((file) => (
+            <FileCard
+              key={file.id}
+              file={file}
+              onDelete={deleteFile}
+              onView={handleViewFile}
+            />
+          ))}
+        </div>
+      )}
+
+      <FileViwerModel
+        file={selectedFile}
+        isOpen={isViewerOpen}
+        onClose={handleCloseViewer}
+      />
+    </div>
+  );
 }

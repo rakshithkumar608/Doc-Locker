@@ -2,9 +2,9 @@
 
 import { useState, useMemo } from 'react';
 import { FileCard } from '@/components/vault/FileCard';
-import { FileViwerModel } from "@/components/vault/FileViewerModel";
+import { FileViewerModal } from '@/components/vault/FileViewerModal';
 import { useVaultData, VaultFile } from '@/hooks/useVaultData';
-import { Search } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 
@@ -26,15 +26,16 @@ export default function SearchPage() {
     setTimeout(() => setSelectedFile(null), 300);
   };
 
-  
+  // Real-time filtered and searched results
   const filteredFiles = useMemo(() => {
     let result = [...files];
 
-
+    // Apply type filter
     if (activeFilter !== 'all') {
       result = result.filter(file => file.type === activeFilter);
     }
 
+    // Apply search query (name + tags)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       result = result.filter(file => 
@@ -43,7 +44,7 @@ export default function SearchPage() {
       );
     }
 
-
+    // Sort by newest first
     return result.sort((a, b) => 
       new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -62,7 +63,7 @@ export default function SearchPage() {
 
   return (
     <div className="space-y-8">
-
+      {/* Header */}
       <div>
         <h1 className="text-4xl font-bold text-white tracking-tight flex items-center gap-3">
           <Search className="w-9 h-9 text-indigo-400" />
@@ -71,7 +72,7 @@ export default function SearchPage() {
         <p className="text-zinc-400 mt-2">Find your encrypted files instantly</p>
       </div>
 
-
+      {/* Search Input */}
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5" />
         <Input
@@ -83,7 +84,7 @@ export default function SearchPage() {
         />
       </div>
 
-
+      {/* Filters */}
       <div className="flex flex-wrap gap-2">
         {filterOptions.map((filter) => (
           <Badge
@@ -101,7 +102,7 @@ export default function SearchPage() {
         ))}
       </div>
 
-
+      {/* Results */}
       <div>
         <div className="flex justify-between items-center mb-6">
           <p className="text-zinc-400">
@@ -139,8 +140,8 @@ export default function SearchPage() {
         )}
       </div>
 
-   
-      <FileViwerModel
+      {/* File Viewer Modal */}
+      <FileViewerModal
         file={selectedFile}
         isOpen={isViewerOpen}
         onClose={handleCloseViewer}
