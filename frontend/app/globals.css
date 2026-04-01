@@ -4,6 +4,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.glass {
+  background: rgba(24, 24, 27, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(63, 63, 70, 0.4);
+}
+
+.vault-accent {
+  color: #6366f1; /* Indigo for security/trust */
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
